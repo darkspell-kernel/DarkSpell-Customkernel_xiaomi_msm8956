@@ -1,0 +1,12 @@
+# Thanks fantaghiro foe <foe@iframework.org> ~~!
+
+on property:sys.boot_completed=1
+    # Set ReadAhead
+	write /sys/block/mmcblk0/queue/read_ahead_kb 128
+	write /sys/block/mmcblk0/queue/scheduler fiops
+
+	#Disable Core Control and Control VDD and MSM Thermal Throttling allowing for longer sustained performance
+	write /sys/module/msm_thermal/core_control/enabled 0
+	
+    exec u:r:su:s0 root root -- /init.special_power.sh
+    exec u:r:supersu:s0 root root -- /init.special_power.sh
